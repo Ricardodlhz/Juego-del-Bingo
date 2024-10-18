@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.video_background{
+    width: 100%;
+}
+
+.container{
+    margin: auto;
+    width: 1200px;
+}
+
+
