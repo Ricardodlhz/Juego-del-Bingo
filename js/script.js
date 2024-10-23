@@ -12,31 +12,39 @@ const numerosBingo = [
 ];
 const bingo__container=document.getElementById("bingo__container")
 const bingo__carton=document.getElementById("bingo__carton")
+const bingo__carton__child=document.getElementById("bingo__carton__child")
 const jugar=document.getElementById("jugar")
 const container__juego=document.getElementById("container__juego")
 const numero__elegido=document.getElementById("numero__elegido")
-
+const tittle=document.getElementById("tittle")
 /*Función para cargar el carton del bingo*/
 let fragment=document.createDocumentFragment()
 let posicion
 const cargarCarton=()=>{
+    
     for (let index = 0; index < 24; index++) {
         posicion=Math.floor(Math.random()*numerosBingo.length)
         let newP=document.createElement("P")
         newP.textContent=posicion
         newP.classList="bingo__casilla"
         fragment.append(newP)
-
     }
     
     bingo__carton.append(fragment)
 }
 
-
+let contadorAciertos=0;
 const comprobarCarton=(event)=>{
     if(event.target.nodeName=="P"){
         console.log("haces click en el texto")
+        if(event.target.textContent==numero__elegido.textContent){
+            contadorAciertos++;
+            console.log("Bien tienes el número en el carton")
+            event.target.textContent=""
+            event.target.classList="fa-solid fa-flag bingo__casilla icono"
+        }
     }
+
 }
 let interval
 let contador=0;
@@ -44,15 +52,32 @@ const generarNumero=()=>{
     contador+=100
     posicion=Math.floor(Math.random()*numerosBingo.length)
     numero__elegido.textContent=posicion
-    if(contador==24000){
+    if(contador==400){
         clearInterval(interval)
+        console.log(contadorAciertos)
+        console.log("Se acabó el tiempo")
+        numero__elegido.classList="red"
+        numero__elegido.textContent="Se ha acabado el Tiempo"
+        bingo__carton.innerHTML="";
+        jugar.style.display="block"
+        
     }
 }
+
+
+
 const juego=(event)=>{
     if(event.target.nodeName=="INPUT"){
+        jugar.style.display="none"
+        tittle.textContent="Debes Cantar Bingo no se puede ganar a lineas"
+        contador=0;
+        contadorAciertos=0;
+        console.log(contador)
+        generarNumero()
+        cargarCarton()
+         numero__elegido.classList="numero__elegido"
         console.log("Hiciste click en jugar")
-       interval=setInterval(generarNumero,1000)
-        
+       interval=setInterval(generarNumero,5000)
     }
 }
 
@@ -65,6 +90,6 @@ const juego=(event)=>{
 
 
 /*Listener */
-document.addEventListener("DOMContentLoaded",cargarCarton)
+
 container__juego.addEventListener("click",juego)
 bingo__container.addEventListener("click",comprobarCarton)
