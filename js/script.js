@@ -17,6 +17,7 @@ const jugar=document.getElementById("jugar")
 const container__juego=document.getElementById("container__juego")
 const numero__elegido=document.getElementById("numero__elegido")
 const tittle=document.getElementById("tittle")
+const body=document.getElementById("body")
 /*Función para cargar el carton del bingo*/
 let fragment=document.createDocumentFragment()
 let posicion
@@ -46,6 +47,15 @@ const comprobarCarton=(event)=>{
     }
 
 }
+
+/*Comprobamos si hemos ganado o perdido */
+const ganado=()=>{
+    if(contadorAciertos==1){
+        return true;
+    }else{
+        return false;
+    }
+}
 let interval
 let contador=0;
 const generarNumero=()=>{
@@ -60,15 +70,29 @@ const generarNumero=()=>{
         numero__elegido.textContent="Se ha acabado el Tiempo"
         bingo__carton.innerHTML="";
         jugar.style.display="block"
-        
+        if(ganado()){
+            tittle.textContent="HAS GANADO"
+            numero__elegido.style.display="none"
+            body.style.backgroundImage="url('./../assets/images/ganado.jpg')";
+            
+        }else{
+            tittle.textContent="HAS PERDIDO"
+            numero__elegido.style.display="none"
+            body.style.backgroundImage="url('./../assets/images/perder.jpg')";
+        }
     }
+       
+        
+    
 }
 
 
 
 const juego=(event)=>{
     if(event.target.nodeName=="INPUT"){
+        body.style.backgroundImage="url('./../assets/images/bolas bingo fondo.jpg')";
         jugar.style.display="none"
+        numero__elegido.style.display="block"
         tittle.textContent="Debes Cantar Bingo no se puede ganar a lineas"
         contador=0;
         contadorAciertos=0;
